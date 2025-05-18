@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -22,31 +22,15 @@
   </div>
 
   <script>
-    // Firebase configuration
-    const firebaseConfig = {// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyA56Nfr_dFyk8KprV6XUnULsEkZio7y_ZU",
-  authDomain: "chat-8ac2b.firebaseapp.com",
-  projectId: "chat-8ac2b",
-  storageBucket: "chat-8ac2b.firebasestorage.app",
-  messagingSenderId: "663669877385",
-  appId: "1:663669877385:web:e8432f971cf147a26ab458"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
+    // Correct Firebase config (make sure this is YOUR actual config)
+    const firebaseConfig = {
+      apiKey: "AIzaSyA56Nfr_dFyk8KprV6XUnULsEkZio7y_ZU",
+      authDomain: "chat-8ac2b.firebaseapp.com",
+      databaseURL: "https://chat-8ac2b-default-rtdb.firebaseio.com", // This line is critical
+      projectId: "chat-8ac2b",
+      storageBucket: "chat-8ac2b.appspot.com",
+      messagingSenderId: "663669877385",
+      appId: "1:663669877385:web:e8432f971cf147a26ab458"
     };
 
     // Initialize Firebase
@@ -54,10 +38,12 @@ const app = initializeApp(firebaseConfig);
     const db = firebase.database();
 
     function sendMessage() {
-      const username = document.getElementById('username').value;
-      const message = document.getElementById('message').value;
-      db.ref("messages").push({ user: username, text: message });
-      document.getElementById('message').value = '';
+      const username = document.getElementById('username').value.trim();
+      const message = document.getElementById('message').value.trim();
+      if (username && message) {
+        db.ref("messages").push({ user: username, text: message });
+        document.getElementById('message').value = '';
+      }
     }
 
     db.ref("messages").on("child_added", function(snapshot) {
@@ -68,4 +54,4 @@ const app = initializeApp(firebaseConfig);
     });
   </script>
 </body>
-</html>
+ </html>
