@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Live Chat - Arsalan Shaikh</title>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <style>
+    body { font-family: Arial; background: #eef; padding: 20px; }
+    .chat-box { max-width: 500px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px #aaa; }
+    .messages { height: 300px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; }
+    input, button { padding: 10px; width: 100%; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div class="chat-box">
+    <h2>Live Chat</h2>
+    <div class="messages" id="messages"></div>
+    <input type="text" id="username" placeholder="Your Name" />
+    <input type="text" id="message" placeholder="Type a message..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyA56Nfr_dFyk8KprV6XUnULsEkZio7y_ZU",
+  authDomain: "chat-8ac2b.firebaseapp.com",
+  projectId: "chat-8ac2b",
+  storageBucket: "chat-8ac2b.firebasestorage.app",
+  messagingSenderId: "663669877385",
+  appId: "1:663669877385:web:e8432f971cf147a26ab458"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    function sendMessage() {
+      const username = document.getElementById('username').value;
+      const message = document.getElementById('message').value;
+      db.ref("messages").push({ user: username, text: message });
+      document.getElementById('message').value = '';
+    }
+
+    db.ref("messages").on("child_added", function(snapshot) {
+      const msg = snapshot.val();
+      const msgBox = document.getElementById('messages');
+      msgBox.innerHTML += `<p><strong>${msg.user}:</strong> ${msg.text}</p>`;
+      msgBox.scrollTop = msgBox.scrollHeight;
+    });
+  </script>
+</body>
+</html>
